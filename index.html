@@ -17,8 +17,6 @@
             brand: {
               red: '#e53e3e',
               purple: '#805ad5',
-              darkBg: '#121212',
-              darkCard: '#1e1e1e',
             }
           }
         }
@@ -28,22 +26,19 @@
 </head>
 <body class="bg-gray-100 text-gray-800 dark:bg-zinc-950 dark:text-gray-100 min-h-screen transition-colors duration-200">
 
-  <!-- Header Section -->
+  <!-- Header Chung -->
   <header class="bg-white dark:bg-zinc-900 shadow-sm sticky top-0 z-40 border-b dark:border-zinc-800">
     <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-      <!-- Left Controls: Close & Logo -->
       <div class="flex items-center space-x-3">
-        <button class="p-2 text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg">
+        <button onclick="switchView('homeView')" class="p-2 text-red-500 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-lg">
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
-        <!-- Logo Badge -->
         <div class="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 p-1 rounded-lg text-black font-extrabold text-xs tracking-wider uppercase border border-amber-300 shadow">
           VINHCHUNGSUC.COM
           <div class="text-[9px] font-normal text-center lowercase -mt-1 text-black/80">tool auto chung sức liên quân</div>
         </div>
       </div>
 
-      <!-- Right Controls: Theme Toggle & Login Button -->
       <div class="flex items-center space-x-2">
         <button id="themeToggle" class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800">
           <i id="themeIcon" class="fa-regular fa-moon text-lg"></i>
@@ -55,9 +50,8 @@
     </div>
   </header>
 
-  <!-- Main App Container (Mobile Width Focused) -->
-  <main class="max-w-md mx-auto px-4 py-4 space-y-4">
-
+  <!-- ================= VIEW 1: TRANG CHỦ MENU ================= -->
+  <div id="homeView" class="max-w-md mx-auto px-4 py-4 space-y-4">
     <!-- Auth Action Card -->
     <div class="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 text-center">
       <p class="text-xs text-gray-500 dark:text-gray-400 mb-3 font-medium">Đăng nhập tài khoản để xem số dư và nạp ATM</p>
@@ -76,8 +70,7 @@
       <h2 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Menu chính</h2>
       
       <div class="space-y-1">
-        <!-- Menu Item: Trang chủ -->
-        <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
+        <a href="#" onclick="switchView('homeView')" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
           <div class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-500 flex items-center justify-center">
               <i class="fa-solid fa-house"></i>
@@ -87,12 +80,253 @@
           <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
         </a>
 
-        <!-- Menu Item: Giao diện Tool -->
-        <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40">
+        <!-- Nút bấm chuyển sang Giao diện Tool -->
+        <button onclick="switchView('toolView')" class="w-full flex items-center justify-between p-3 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-100 dark:border-purple-900/40 text-left">
           <div class="flex items-center space-x-3">
             <div class="w-9 h-9 rounded-xl bg-purple-500 text-white flex items-center justify-center">
               <i class="fa-solid fa-robot"></i>
             </div>
             <span class="font-semibold text-sm text-purple-700 dark:text-purple-300">Giao diện Tool</span>
           </div>
-          
+          <span class="bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">Hot</span>
+        </button>
+
+        <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-500 flex items-center justify-center">
+              <i class="fa-solid fa-gamepad"></i>
+            </div>
+            <span class="font-medium text-sm">Tất cả sản phẩm</span>
+          </div>
+          <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">Hot</span>
+        </a>
+
+        <button onclick="openModal('topupModal')" class="w-full flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-500 flex items-center justify-center">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <span class="font-medium text-sm">Nạp tiền tự động</span>
+          </div>
+          <span class="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-md">VIETQR</span>
+        </button>
+
+        <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/30 text-amber-500 flex items-center justify-center">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <span class="font-medium text-sm">Lịch sử mua hàng</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+        </a>
+
+        <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-xl bg-orange-100 dark:bg-orange-900/30 text-orange-500 flex items-center justify-center">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="font-medium text-sm">Thông tin tài khoản</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Support 24/7 Section -->
+    <div class="bg-red-50/50 dark:bg-red-950/20 rounded-2xl p-4 border border-red-100 dark:border-red-900/30 space-y-2">
+      <div class="flex items-center space-x-2 text-red-500 font-bold text-sm">
+        <i class="fa-solid fa-headset"></i>
+        <span>HỖ TRỢ 24/7</span>
+      </div>
+      <p class="text-xs text-gray-500 dark:text-gray-400">Liên hệ Admin hỗ trợ nạp tiền và bảo hành nick siêu tốc:</p>
+      <div class="bg-white dark:bg-zinc-800 p-2.5 rounded-xl border border-gray-200 dark:border-zinc-700 flex items-center justify-between mt-2">
+        <div class="flex items-center space-x-2 text-emerald-600 font-semibold text-sm">
+          <i class="fa-solid fa-phone"></i>
+          <span>0968045142</span>
+        </div>
+        <a href="https://zalo.me/0968045142" target="_blank" class="text-blue-500 text-xs font-semibold hover:underline">
+          Zalo <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= VIEW 2: TRANG GIAO DIỆN TOOL (HIỆN KHI BẤM GIAO DIỆN TOOL) ================= -->
+  <div id="toolView" class="max-w-md mx-auto px-4 py-4 space-y-4 hidden">
+    <!-- Tiêu đề tool -->
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl p-3 shadow-sm border border-gray-100 dark:border-zinc-800 flex items-center justify-between">
+      <div class="flex items-center space-x-2 text-sm font-bold">
+        <span class="text-red-500"><i class="fa-solid fa-gamepad"></i></span>
+        <span>TOOL AUTO CHUNG SỨC LIÊN QUÂN</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded">24/7</span>
+        <button onclick="openModal('authModal')" class="bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">Đăng Nhập</button>
+      </div>
+    </div>
+
+    <!-- Chọn Chế Độ -->
+    <div class="grid grid-cols-2 gap-2 bg-gray-200 dark:bg-zinc-800 p-1.5 rounded-xl">
+      <button class="bg-amber-600 text-white text-xs font-bold py-2 rounded-lg shadow">
+        <i class="fa-solid fa-gears mr-1"></i> Chế Độ 2: Hệ Thống
+      </button>
+      <button class="text-gray-600 dark:text-gray-300 text-xs font-bold py-2 rounded-lg">
+        <i class="fa-solid fa-bolt mr-1"></i> Chế Độ 1: Tự Cấp
+      </button>
+    </div>
+
+    <!-- Kho Clone & Thông số -->
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 space-y-3">
+      <div class="flex items-center justify-between text-xs font-medium">
+        <span class="text-gray-500">Kho Clone Hệ Thống:</span>
+        <div class="space-x-1">
+          <span class="font-bold text-gray-800 dark:text-white">1.989 acc</span>
+          <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-1.5 py-0.5 rounded">SẴN SÀNG</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[11px] font-bold text-gray-500 block mb-1">Số vé cần kéo:</label>
+          <input type="number" value="152" class="w-full bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-sm font-bold">
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-gray-500 block mb-1">Số luồng (Max: 10):</label>
+          <input type="number" value="10" class="w-full bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl px-3 py-2 text-sm font-bold">
+        </div>
+      </div>
+
+      <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-2.5 flex items-center justify-between text-xs">
+        <span class="text-amber-700 dark:text-amber-400 font-medium">Dự kiến: 4 clone (~152 vé)</span>
+        <span class="font-extrabold text-amber-800 dark:text-amber-300">6.000đ</span>
+      </div>
+    </div>
+
+    <!-- Chọn gói Combo -->
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 space-y-3">
+      <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Chọn gói Combo (Tiết kiệm):</p>
+      
+      <div class="grid grid-cols-2 gap-2">
+        <div class="border border-gray-200 dark:border-zinc-700 rounded-xl p-2.5">
+          <div class="font-bold text-xs">38 Vé</div>
+          <div class="text-[11px] text-gray-400 mb-1">1 clone (38 vé)</div>
+          <div class="text-xs font-extrabold text-red-500">1,500đ</div>
+        </div>
+        <div class="border-2 border-amber-500 bg-amber-50/30 dark:bg-amber-950/10 rounded-xl p-2.5">
+          <div class="font-bold text-xs">Rương Ss</div>
+          <div class="text-[11px] text-gray-400 mb-1">4 clone (152 vé)</div>
+          <div class="text-xs font-extrabold text-red-500">6,000đ</div>
+        </div>
+        <div class="border border-gray-200 dark:border-zinc-700 rounded-xl p-2.5">
+          <div class="font-bold text-xs">Full 3 Rương</div>
+          <div class="text-[11px] text-gray-400 mb-1">9 clone (342 vé)</div>
+          <div class="text-xs font-extrabold text-red-500">12,000đ</div>
+        </div>
+        <div class="border border-gray-200 dark:border-zinc-700 rounded-xl p-2.5">
+          <div class="font-bold text-xs">1K Vé</div>
+          <div class="text-[11px] text-gray-400 mb-1">27 clone (1026 vé)</div>
+          <div class="text-xs font-extrabold text-red-500">30,000đ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ô nhập mã sự kiện -->
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-zinc-800 space-y-2">
+      <div class="flex items-center justify-between">
+        <label class="text-xs font-bold text-gray-700 dark:text-gray-300">Mã Sự Kiện Hoặc Link Cần Kéo:</label>
+        <span class="text-[11px] text-gray-400">Đã nạp: 0 mã</span>
+      </div>
+      <textarea rows="3" placeholder="Nhập mã hoặc link (Mỗi dòng 1 mã):" class="w-full bg-gray-50 dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-xl p-2.5 text-xs focus:outline-none focus:border-red-500">FH968Rcztj
+https://chungsuc.lienquan.garena.vn/?...</textarea>
+      
+      <button onclick="alert('Vui lòng đăng nhập để bắt đầu kéo điểm!')" class="w-full bg-gradient-to-r from-amber-600 via-red-600 to-amber-700 hover:opacity-95 text-white font-bold py-3 rounded-xl text-sm shadow-lg flex items-center justify-center space-x-2 mt-2">
+        <span>BẮT ĐẦU KÉO ĐIỂM (6.000Đ)</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Floating Contact Button -->
+  <div class="fixed bottom-4 right-4 z-30">
+    <a href="https://zalo.me/0968045142" target="_blank" class="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2.5 rounded-full shadow-lg font-semibold text-sm flex items-center space-x-2 hover:scale-105 transition-transform">
+      <i class="fa-solid fa-comments text-lg"></i>
+      <span>Liên hệ</span>
+    </a>
+  </div>
+
+  <!-- Modal: Auth (Login/Register) -->
+  <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-sm w-full p-6 relative border border-gray-100 dark:border-zinc-800 shadow-xl">
+      <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <h3 class="text-lg font-bold text-center mb-4">Đăng Nhập Tài Khoản</h3>
+      <form class="space-y-3" onsubmit="event.preventDefault(); alert('Đăng nhập thành công!'); closeModal('authModal');">
+        <div>
+          <label class="text-xs font-semibold text-gray-500">Tên đăng nhập / Email</label>
+          <input type="text" required class="w-full mt-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:border-red-500">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-gray-500">Mật khẩu</label>
+          <input type="password" required class="w-full mt-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-sm focus:outline-none focus:border-red-500">
+        </div>
+        <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-xl text-sm shadow mt-2">
+          Đăng Nhập
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: VietQR Top-up -->
+  <div id="topupModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-2xl max-w-sm w-full p-6 relative border border-gray-100 dark:border-zinc-800 shadow-xl text-center">
+      <button onclick="closeModal('topupModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <h3 class="text-lg font-bold mb-2">Nạp Tiền Tự Động (VietQR)</h3>
+      <p class="text-xs text-gray-500 mb-4">Quét mã QR bằng ứng dụng ngân hàng để nạp tiền nhanh 24/7</p>
+      
+      <div class="bg-gray-100 dark:bg-zinc-800 p-4 rounded-xl inline-block mb-4">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=DemoVietQR" alt="VietQR Code" class="w-40 h-40 mx-auto rounded-lg">
+      </div>
+      <p class="text-xs text-gray-400">Hệ thống sẽ tự động cộng tiền sau 1-3 phút khi nhận được chuyển khoản.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // Chuyển đổi qua lại giữa Trang chủ menu và Giao diện Tool
+    function switchView(viewId) {
+      document.getElementById('homeView').classList.add('hidden');
+      document.getElementById('toolView').classList.add('hidden');
+      document.getElementById(viewId).classList.remove('hidden');
+      window.scrollTo(0, 0);
+    }
+
+    // Theme Switcher Logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      if (document.documentElement.classList.contains('dark')) {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      } else {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    });
+
+    // Modal Control Functions
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
