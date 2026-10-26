@@ -3,70 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý đơn Chung Sức</title>
+    <title>Sự Kiện Liên Quân - Tool Auto Chung Sức</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1a1a; color: #fff; margin: 0; }
-        .container { max-width: 500px; margin: 20px auto; background: #2a2a2a; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        h2, h3 { margin-top: 0; }
-        input, button { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; border-radius: 6px; font-size: 14px; }
-        input { border: 1px solid #444; background: #333; color: #fff; }
-        button { background-color: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background-color: #0056b3; }
-        .order-list { margin-top: 20px; }
-        .order-item { background: #333; padding: 10px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; word-break: break-all; }
-        .status { color: #28a745; font-weight: bold; }
+        :root {
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --primary: #6c5ce7;
+            --primary-gradient: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 12px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* Banner thông báo */
+        .alert-box {
+            background: #fff8e6;
+            border: 1px solid #ffeaa7;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+        .alert-title {
+            color: #d63031;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        /* Lưới thống kê 4 ô */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 4px solid var(--primary);
+        }
+        .stat-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 3px 0;
+        }
+        .stat-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Khung Tạo Mã */
+        .main-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .wallet-badge {
+            background: #f1f2f6;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Chế độ Tool */
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .mode-btn {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #f8f9fa;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+        .mode-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Nhập liệu */
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+
+        /* Gói Combo */
+        .combo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .combo-item {
+            border: 1.5px solid var(--border);
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        .combo-item.active {
+            border-color: var(--primary);
+            background: #f3f0ff;
+        }
+        .combo-title { font-weight: bold; font-size: 12px; }
+        .combo-sub { font-size: 11px; color: var(--text-muted); }
+
+        /* Bảng tổng chi phí */
+        .price-summary {
+            background: #f8f9fe;
+            border: 1px solid #e0d7ff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        .total-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--primary);
+            border-top: 1px dashed #dcdde1;
+            padding-top: 6px;
+            margin-top: 6px;
+        }
+
+        /* Nút tạo đơn */
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Quản lý đơn Chung Sức</h2>
-        <form id="orderForm">
-            <label>Nhập link hoặc mã Chung Sức:</label>
-            <input type="text" id="eventUrl" placeholder="https://chungsuc.lienquan.garena.vn/..." required>
-            <button type="submit">Tạo đơn hỗ trợ</button>
-        </form>
+        <!-- Thông báo -->
+        <div class="alert-box">
+            <div class="alert-title">📢 THÔNG BÁO HỆ THỐNG</div>
+            <div>Chợ Tool Auto Chung Sức Liên Quân 24/7. Nhập mã mời hoặc link sự kiện để chạy kéo điểm tự động.</div>
+        </div>
 
-        <div class="order-list">
-            <h3>Danh sách đơn đã gửi</h3>
-            <div id="listContainer">Chưa có đơn nào.</div>
+        <!-- Thống kê -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Tổng Vé Đã Mua</div>
+                <div class="stat-value">0 Vé</div>
+                <div class="stat-sub">Đang chạy: 0 mã</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Kho Clone Hệ Thống</div>
+                <div class="stat-value">9,169 acc</div>
+                <div class="stat-sub">Sẵn sàng kéo</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Vé Hoàn Thành</div>
+                <div class="stat-value">0 Vé</div>
+                <div class="stat-sub">Thành công 100%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Tổng Chi Phí</div>
+                <div class="stat-value">0đ</div>
+                <div class="stat-sub">Giá: 1,000đ / 38 vé</div>
+            </div>
+        </div>
+
+        <!-- Khung Tạo Mã -->
+        <div class="main-card">
+            <div class="card-header">
+                <div class="card-title">➕ Tạo Mã Mới</div>
+                <div class="wallet-badge">Số dư: 3,000đ</div>
+            </div>
+
+            <!-- Chọn Chế Độ -->
+            <div class="mode-selector">
+                <div class="mode-btn active" onclick="selectMode(this)">⚡ Chế Độ 2 (Hệ Thống)</div>
+                <div class="mode-btn" onclick="selectMode(this)">🔑 Chế Độ 1 (Cá Nhân)</div>
+            </div>
+
+            <form id="toolForm">
+                <!-- Mã Mời -->
+                <div class="form-group">
+                    <label class="form-label">&lt;/&gt; Mã mời (Friend Code) hoặc Link sự kiện</label>
+                    <input type="text" class="form-control" id="codeUrl" placeholder="VD: AAABBBCCC hoặc dán link..." required>
+                </div>
+
+                <!-- Combo Vé -->
+                <div class="form-group">
+                    <label class="form-label">🎁 Chọn nhanh Gói Combo ưu đãi</label>
+                    <div class="combo-grid">
+                        <div class="combo-item active" onclick="selectCombo(this, 38, 1000)">
+                            <div class="combo-title">38 vé (1 acc)</div>
+                            <div class="combo-sub">38 Vé • 1,000đ</div>
+                        </div>
+                        <div class="combo-item" onclick="selectCombo(this, 152, 3500)">
+                            <div class="combo-title">152 vé / Rương SS</div>
+                            <div class="combo-sub">152 Vé • 3,500đ</div>
+                        </div>
+                        <div class="combo-item" onclick="selectCombo(this, 342, 7000)">
+                            <div class="combo-title">342 vé / Full 3 rương</div>
+                            <div class="combo-sub">342 Vé • 7,000đ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tên khách -->
+                <div class="form-group">
+                    <label class="form-label">👤 Tên khách (Tùy chọn)</label>
+                    <input type="text" class="form-control" placeholder="VD: Anh Minh">
+                </div>
+
+                <!-- Bảng giá -->
+                <div class="price-summary">
+                    <div class="summary-row">
+                        <span>Số Acc Tool chạy:</span>
+                        <span id="accCount">1 acc</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Số lượt dự kiến:</span>
+                        <span id="ticketCount">38 Vé</span>
+                    </div>
+                    <div class="summary-row total-price">
+                        <span>Tổng chi phí:</span>
+                        <span id="totalPrice">1,000đ</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">🚀 TẠO ĐƠN TOOL NGAY</button>
+            </form>
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('orderForm');
-        const listContainer = document.getElementById('listContainer');
-
-        // Hàm hiển thị danh sách đơn
-        function renderOrders() {
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            if (orders.length === 0) {
-                listContainer.innerHTML = '<p style="color:#888;">Chưa có đơn nào được tạo.</p>';
-                return;
-            }
-            listContainer.innerHTML = orders.map((ord, idx) => `
-                <div class="order-item">
-                    <strong>Đơn #${idx + 1}:</strong> ${ord.link}<br>
-                    <span>Trạng thái: <span class="status">${ord.status}</span></span>
-                </div>
-            `).join('');
+        function selectMode(element) {
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
         }
 
-        // Xử lý khi bấm nút Tạo đơn
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = document.getElementById('eventUrl');
-            const link = input.value.trim();
-            if (link) {
-                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-                orders.unshift({ link: link, status: 'Đang xử lý' });
-                localStorage.setItem('orders', JSON.stringify(orders));
-                input.value = '';
-                renderOrders();
-            }
-        });
+        function selectCombo(element, tickets, price) {
+            document.querySelectorAll('.combo-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            
+            const accs = Math.ceil(tickets / 38);
+            document.getElementById('accCount').innerText = accs + ' acc';
+            document.getElementById('ticketCount').innerText = tickets + ' Vé';
+            document.getElementById('totalPrice').innerText = price.toLocaleString('vi-VN') + 'đ';
+        }
 
-        // Tải danh sách khi mở trang
-        renderOrders();
+        document.getElementById('toolForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Đã gửi đơn Tool thành công! Hệ thống đang xử lý.');
+        });
     </script>
 </body>
 </html>
