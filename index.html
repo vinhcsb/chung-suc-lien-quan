@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Chung Sức Liên Quân</title>
+    <title>Quản lý đơn Chung Sức</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1a1a; color: #fff; }
-        .container { max-width: 500px; margin: 0 auto; background: #2a2a2a; padding: 20px; border-radius: 8px; }
-        input, button { width: 100%; padding: 10px; margin-top: 10px; box-sizing: border-box; }
-        button { background-color: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #1a1a1a; color: #fff; margin: 0; }
+        .container { max-width: 500px; margin: 20px auto; background: #2a2a2a; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        h2, h3 { margin-top: 0; }
+        input, button { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; border-radius: 6px; font-size: 14px; }
+        input { border: 1px solid #444; background: #333; color: #fff; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
         button:hover { background-color: #0056b3; }
+        .order-list { margin-top: 20px; }
+        .order-item { background: #333; padding: 10px; margin-bottom: 8px; border-radius: 6px; font-size: 13px; word-break: break-all; }
+        .status { color: #28a745; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -20,7 +25,48 @@
             <input type="text" id="eventUrl" placeholder="https://chungsuc.lienquan.garena.vn/..." required>
             <button type="submit">Tạo đơn hỗ trợ</button>
         </form>
-        <div id="result" style="margin-top:15px;"></div>
+
+        <div class="order-list">
+            <h3>Danh sách đơn đã gửi</h3>
+            <div id="listContainer">Chưa có đơn nào.</div>
+        </div>
     </div>
+
+    <script>
+        const form = document.getElementById('orderForm');
+        const listContainer = document.getElementById('listContainer');
+
+        // Hàm hiển thị danh sách đơn
+        function renderOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            if (orders.length === 0) {
+                listContainer.innerHTML = '<p style="color:#888;">Chưa có đơn nào được tạo.</p>';
+                return;
+            }
+            listContainer.innerHTML = orders.map((ord, idx) => `
+                <div class="order-item">
+                    <strong>Đơn #${idx + 1}:</strong> ${ord.link}<br>
+                    <span>Trạng thái: <span class="status">${ord.status}</span></span>
+                </div>
+            `).join('');
+        }
+
+        // Xử lý khi bấm nút Tạo đơn
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const input = document.getElementById('eventUrl');
+            const link = input.value.trim();
+            if (link) {
+                const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                orders.unshift({ link: link, status: 'Đang xử lý' });
+                localStorage.setItem('orders', JSON.stringify(orders));
+                input.value = '';
+                renderOrders();
+            }
+        });
+
+        // Tải danh sách khi mở trang
+        renderOrders();
+    </script>
 </body>
 </html>
